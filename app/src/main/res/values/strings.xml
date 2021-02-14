@@ -1,4 +1,13 @@
 <resources>
-    <string name="app_name">HelloWorld</string>
-    <string name="greeting_text">Hello World! Prerna Sharma </string>
+    <string name="app_name">Music Player</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="Planets">
+        <item>Chhor Denge</item>
+        <item>Temporary Pyar Kaka</item>
+        <item>Titliaan</item>
+        <item>Tum Hi Ho</item>
+        <item>Kale Je Libaas Di Kaka</item>
+    </string-array>
 </resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SongFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:id="@+id/tumHiHo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tum Hi Ho" />
+
+    <Button
+        android:id="@+id/kaaleJeLibas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kaale Je Libas" />
+
+    <Button
+        android:id="@+id/tempPyaar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Temporary Pyaar" />
+
+    <Button
+        android:id="@+id/titliyan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Titliyan" />
+
+    <Button
+        android:id="@+id/stopBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="STOP" />
+
+</LinearLayout>

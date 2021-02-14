@@ -6,6 +6,7 @@ import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,12 +16,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -28,21 +31,20 @@ import java.net.URLConnection;
 public class MainActivity2 extends AppCompatActivity implements View.OnClickListener{
 
     Button button,stopDownBtn,playAgain;
+    EditText text;
     DownloadManager downloadManager;
     MediaPlayer mp;
     File file;
-    final String url = "http://faculty.iiitd.ac.in/~mukulika/s1.mp3";
+    String url = "";
     ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-
         Intent intent = getIntent();
         String msg = intent.getStringExtra("Message");
         Log.i("INFO", "fetched info from Main Activity Successfully");
-        TextView textField = (TextView) findViewById(R.id.textView);
-        textField.setText(msg);
+        text = (EditText) findViewById(R.id.enterUrl);
         button = (Button) findViewById(R.id.button);
         stopDownBtn = (Button) findViewById(R.id.stopDownBtn);
         playAgain = (Button) findViewById(R.id.playDownBtn);
@@ -109,10 +111,12 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         @Override
         protected void onPostExecute(String result) {
             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+            System.out.println(url);
             System.out.println("Done downloading");
             file = new File(getApplicationContext().getFilesDir() + "/" + "s1.mp3");
             System.out.println(file);
             mp = new MediaPlayer();
+            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
             try{
                 mp.setDataSource(file.getPath());
                 mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -123,7 +127,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-                mp.prepareAsync();
+               mp.prepareAsync();
             }catch (Exception e)
             {
 
@@ -139,6 +143,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
             NetworkInfo mob = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
             if((wifi != null && wifi.isConnected())||(mob != null && mob.isConnected())) {
                 DownloadSong downloadSong = new DownloadSong();
+                url = text.getText().toString();
                 downloadSong.execute(url);
             }
             else{
@@ -159,9 +164,22 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this,"Downloaded Song already playing!!!",Toast.LENGTH_SHORT).show();
             }
             else {
-                mp = MediaPlayer.create(this,R.raw.song);
-                mp.start();
+                mp = new MediaPlayer();
+                mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                try{
+                    mp.setDataSource(file.getPath());
+                    mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        public void onPrepared(MediaPlayer player) {
+                            mp.start();
+                            stopDownBtn.setVisibility(View.VISIBLE);
+                            playAgain.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+                    mp.prepareAsync();
+            } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
     }
-}
+}}

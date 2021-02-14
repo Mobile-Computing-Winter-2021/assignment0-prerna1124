@@ -36,7 +36,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     MediaPlayer mp;
     File file;
     String url = "";
-    ProgressDialog progressDialog;
+    ProgressDialog dialogBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +59,13 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(MainActivity2.this);
-            progressDialog.setTitle("Progress");
-            progressDialog.setMessage("Downloading, Please wait!!!");
-            progressDialog.setIndeterminate(false);
-            progressDialog.setMax(100);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressDialog.show();
+            dialogBox = new ProgressDialog(MainActivity2.this);
+            dialogBox.setTitle("Progress");
+            dialogBox.setMessage("Downloading, Please wait!!!");
+            dialogBox.setIndeterminate(false);
+            dialogBox.setMax(100);
+            dialogBox.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            dialogBox.show();
         }
 
         @Override
@@ -73,9 +73,9 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
             try{
 
                 URL url = new URL(urls[0]);
-                URLConnection urlConnection = url.openConnection();
-                urlConnection.connect();
-                int fileLength = urlConnection.getContentLength();
+                URLConnection conn = url.openConnection();
+                conn.connect();
+                int fileLength = conn.getContentLength();
 
                 FileOutputStream fileOutputStream = getApplicationContext().openFileOutput("s1.mp3", Context.MODE_PRIVATE);
                 InputStream input = new BufferedInputStream(url.openStream());
@@ -104,7 +104,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
        @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            progressDialog.setProgress(values[0]);
+            dialogBox.setProgress(values[0]);
 
         }
 

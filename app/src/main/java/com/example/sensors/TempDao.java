@@ -14,11 +14,6 @@ public interface TempDao {
     @Insert
     void insert(Temperature t) ;
 
-
-    @Query("Select * from Temperature where id >=:lastOneHourTime and id <=:currTime ")
-    List<Temperature> data(long lastOneHourTime,long currTime);
-
-
     @Query("delete from Temperature")
     void delete();
 

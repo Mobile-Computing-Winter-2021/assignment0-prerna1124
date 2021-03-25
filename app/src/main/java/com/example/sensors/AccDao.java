@@ -15,7 +15,7 @@ public interface AccDao {
     void insert(Accelerator a) ;
 
 
-    @Query("Select * from Accelerometer where id >=:lastOneHourTime and id <=:currTime ")
+    @Query("Select * from Accelerometer where time >=:lastOneHourTime and time <=:currTime ")
     List<Accelerator> fetchData(long lastOneHourTime,long currTime);
 
 

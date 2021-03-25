@@ -15,8 +15,8 @@ public interface LightDao {
     void insert(Light l) ;
 
 
-    @Query("Select * from Light")
-    List<Light> data();
+    @Query("Select * from Light where time >=:lastOneHourTime and time <=:currTime ")
+    List<Light> data(long lastOneHourTime,long currTime);
 
 
     @Query("delete from Light")

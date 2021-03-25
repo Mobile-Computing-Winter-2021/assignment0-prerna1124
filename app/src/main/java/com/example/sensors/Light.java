@@ -10,8 +10,19 @@ public class Light {
     @PrimaryKey(autoGenerate = true)
     private int ID;
 
+    @ColumnInfo(name = "time")
+    private long time;
+
     @ColumnInfo(name = "illumination")
     private float ill;
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 
     public int getID() {
         return ID;

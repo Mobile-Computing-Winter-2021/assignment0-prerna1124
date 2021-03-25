@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Date d1;
     Button tempBtn,accBtn;
     TextView textView,textView1;
-    List<Temperature> lst;
+    List<Light> lst;
     List<Accelerator> lst1;
     RoomDB database;
     private int hitCount = 0;
@@ -116,14 +116,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onClick(View v) {
 
-                lst = database.tempDao().data(System.currentTimeMillis()-3600000,System.currentTimeMillis());
+                lst = database.lightDao().data(System.currentTimeMillis()-3600000,System.currentTimeMillis());
 //                System.out.println(lst.get(0).getId()+" "+lst.get(0).getTemp());
                 System.out.println("========================================="+lst.size());
 
                 long sum = 0;
                 for (int i = 0;i<lst.size();i++)
                 {
-                    sum += lst.get(i).getTemp();
+                    sum += lst.get(i).getIll();
                 }
 
                 sum = sum/lst.size();
@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     z = event.values[2];
 
                     Accelerator l = new Accelerator();
-                    l.setID(System.currentTimeMillis());
+                    l.setTime(System.currentTimeMillis());
                     l.setX(x);
                     l.setY(y);
                     l.setZ(z);
@@ -436,6 +436,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     ill = event.values[0];
                     Log.i(TAG,String.valueOf(ill));
                     Light li = new Light();
+                    li.setTime(System.currentTimeMillis());
                     li.setIll(ill);
                     database.lightDao().insert(li);
                     break;
@@ -450,7 +451,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     temp = event.values[0];
                     //Log.i(TAG,String.valueOf(temp));
                     Temperature t = new Temperature();
-                    t.setId(System.currentTimeMillis());
                     t.setTemp(temp);
                     System.out.println(t.getTemp());
                     database.tempDao().insert(t);

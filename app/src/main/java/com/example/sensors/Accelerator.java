@@ -7,11 +7,22 @@ import androidx.room.PrimaryKey;
 @Entity(tableName="Accelerometer")
 public class Accelerator {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long ID;
+
+    @ColumnInfo(name = "time")
+    private long time;
 
     @ColumnInfo(name = "X")
     private float x;
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 
     @ColumnInfo(name = "Y")
     private float y;

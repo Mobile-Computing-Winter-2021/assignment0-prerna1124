@@ -208,7 +208,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_gravity="center"
-        android:text="Temperature" />
+        android:text="Light" />
 
 
 </LinearLayout>

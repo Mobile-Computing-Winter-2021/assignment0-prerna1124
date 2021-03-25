@@ -180,10 +180,19 @@
 
     </LinearLayout>
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="103dp" />
+        android:text="Average data"
+        android:layout_height="51dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:text="motion or stationary"
+        android:layout_height="56dp" />
+
 
     <Button
         android:id="@+id/accButton"

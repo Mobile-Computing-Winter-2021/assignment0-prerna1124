@@ -61,10 +61,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     int date;
     Date d1;
     Button tempBtn,accBtn;
-    TextView textView;
+    TextView textView,textView1;
     List<Temperature> lst;
     List<Accelerator> lst1;
     RoomDB database;
+    private int hitCount = 0;
+    private double hitSum = 0;
+    private double hitResult = 0;
+    private final int SAMPLE_SIZE = 50;
+    private final double THRESHOLD = 0.1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         });
 
         textView = findViewById(R.id.textView);
+        textView1 = findViewById(R.id.textView2);
 
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
 
@@ -380,11 +386,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     l.setZ(z);
                     database.accDao().insert(l);
 
-                    d1 = new Date();
-                    time = d1.getTime();
-                    date = d1.getDate();
-
-                    Log.i(TAG,time+" "+date);
                     Log.i(TAG,String.valueOf(x)+" "+String.valueOf(y)+" "+String.valueOf(z));
                     mGravity = event.values.clone();
                     // Shake detection
@@ -395,8 +396,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     mAccelCurrent = (float)Math.sqrt(x*x + y*y + z*z);
                     float delta = mAccelCurrent - mAccelLast;
                     mAccel = mAccel * 0.9f + delta;
-                    if(mAccel > 4){
-                        Toast.makeText(MainActivity.this,"Phone is in motion",Toast.LENGTH_SHORT).show();
+
+                    if (hitCount <= SAMPLE_SIZE) {
+                        hitCount++;
+                        hitSum += Math.abs(mAccel);
+                    } else {
+                        hitResult = hitSum / SAMPLE_SIZE;
+
+                        Log.d(TAG, String.valueOf(hitResult));
+
+                        if (hitResult > THRESHOLD) {
+                            textView1.setText("Phone is in motion");
+                        } else {
+                            textView1.setText("Phone is stationary");
+                        }
+
+                        hitCount = 0;
+                        hitSum = 0;
+                        hitResult = 0;
                     }
                     break;
                 case Sensor.TYPE_GRAVITY:
